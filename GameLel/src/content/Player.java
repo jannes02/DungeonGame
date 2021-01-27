@@ -23,11 +23,9 @@ public class Player {
 		
 		dx = 0; 
 		dy = 0;
-		speed = 5;
+		speed = 1;
 		
 		lives = 3;
-		color1 = Color.PINK;
-		color2 = Color.BLACK;
 		
 		idleAnimation = new Animation();
 		idleAnimation.setAnimation("rsc/sprites/player_idle.png", 24, 32, 11);
@@ -36,6 +34,8 @@ public class Player {
 		walkAnimation = new Animation();
 		walkAnimation.setAnimation("rsc/sprites/player_walk.png", 22, 32, 13);
 		walkAnimation.start();
+		
+
 	} 
 	
 	//FUNCTIONS
@@ -85,13 +85,14 @@ public class Player {
 	}
 	
 	public void draw(Graphics2D g) {
-		g.setColor(color1);
 		
 		if (yAchseSpielgeln) {
-			g.drawImage(sprite, x - r + 240, y - r, -240, 320, null);
+			g.drawImage(sprite, x - r + sprite.getWidth(), y - r, -sprite.getWidth(),sprite.getHeight(), null);
 		}
 		else {
-			g.drawImage(sprite, x - r, y - r, 240, 320, null);
+			g.drawImage(sprite, x - r, y - r, null);
+
+
 		}
 		
 		

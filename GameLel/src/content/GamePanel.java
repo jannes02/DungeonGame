@@ -6,18 +6,19 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class GamePanel extends JPanel implements Runnable, KeyListener{
+public class GamePanel extends JPanel implements Runnable, KeyListener, MouseListener{
 	
-	public static int WIDTH = 1600;
-	public static int HEIGHT = 900;
-	public int höhe = 900, breite = 1600;
-	
+	public static int WIDTH = 512;
+	public static int HEIGHT = 288;
+	public int fensterH = 900, fensterW = 1600;
 	
 	private Thread thread;
 	private boolean running;
@@ -35,12 +36,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	private UI_object btn1;
 	
 	
+	
 	public GamePanel(JFrame w){
 		
 		super();
 		setFocusable(true);
 		requestFocus();
-		setPreferredSize(new Dimension(breite, höhe));
+		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		
 		window = w;
 		btn1 = new UI_object();
@@ -57,12 +59,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			thread.start();
 		}
 		addKeyListener(this);
+		addMouseListener(this);
+		
 	}
 		
 	public void run() {
 			running = true;
 			
-			image = new BufferedImage(breite, höhe, BufferedImage.TYPE_INT_RGB);
+			image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 			g = (Graphics2D) image.getGraphics();
 			
 			try {
@@ -131,8 +135,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		
 	private void gameRender(){
+			
 			g.setColor(new Color(220, 200, 0));
-			g.fillRect(9, 0, breite, höhe);
+			g.fillRect(0, 0, WIDTH, HEIGHT);
 			g.setColor(Color.BLACK);
 			g.drawString("FPS: " + btn1.getStatus(), 100, 100);
 			
@@ -141,26 +146,24 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		
 	private void gameDraw() {
+			
+			
 			Graphics g2 = this.getGraphics();
-			g2.drawImage(image, 0, 0, null);
+			
+			g2.drawImage(image, 0, 0, fensterW, fensterH, null);
+
+			
 			g2.dispose();
 		}
 
 		
 	private void fensterAnpassen() {
-		if (höhe != window.getHeight()) {
-			höhe = window.getHeight();
-			
-			//neues "Bühnenbild in richtiger auflösung erzeugen"
-			image = new BufferedImage(breite, höhe, BufferedImage.TYPE_INT_RGB);
-			g = (Graphics2D) image.getGraphics();
+		if (fensterH != window.getHeight()) {
+			fensterH = window.getHeight();
+
 		}
-		if (breite != window.getWidth()) {
-			breite = window.getWidth();
-			
-			//neues "Bühnenbild in richtiger auflösung erzeugen"
-			image = new BufferedImage(breite, höhe, BufferedImage.TYPE_INT_RGB);
-			g = (Graphics2D) image.getGraphics();
+		if (fensterW != window.getWidth()) {
+			fensterW = window.getWidth();
 		}
 	}
 
@@ -193,6 +196,38 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			// TODO Auto-generated method stub
 			
 	}
+	
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		window.setSize(1920, 1080);
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 }
+
 	
 	
