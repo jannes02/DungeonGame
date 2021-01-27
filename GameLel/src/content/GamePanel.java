@@ -31,9 +31,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 	
 	private Player player;
 	
+	private Weltobjekt wo1;
+	
 	private JFrame window;
 	
 	private UI_object btn1;
+	
+	private boolean wahrheit;
 	
 	
 	
@@ -74,7 +78,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 			} catch (IOException e2) {
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
+				
 			}
+
+			wo1 = new Weltobjekt();
 			
 			
 			
@@ -132,16 +139,22 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 			
 			fensterAnpassen();
 			
+			hitboxBerrechnen();
+			
 		}
 		
+	
+
 	private void gameRender(){
 			
 			g.setColor(new Color(220, 200, 0));
 			g.fillRect(0, 0, WIDTH, HEIGHT);
 			g.setColor(Color.BLACK);
-			g.drawString("FPS: " + btn1.getStatus(), 100, 100);
+			g.drawString("FPS: " + wahrheit, 100, 100);
 			
+			wo1.draw(g);
 			player.draw(g);
+			
 
 		}
 		
@@ -166,13 +179,28 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 			fensterW = window.getWidth();
 		}
 	}
+	
+	private void hitboxBerrechnen() {
+		if (player.getPos().width > wo1.getPos().width && player.getPos().width < (wo1.getPos().width + wo1.getSiz().getWidth())) {
+			wahrheit = true;
+		}
+		else {
+		wahrheit = false;
+		System.out.println(player.getPos().width);
+		}
+	}
+	
+	
+	
+	
+	
 
 		
 	@Override
 	public void keyPressed(KeyEvent key) {
 			int keyCode = key.getKeyCode();
 			if(keyCode == KeyEvent.VK_UP) player.setUp(true);
-			if(keyCode == KeyEvent.VK_DOWN) super.setSize(196,108);
+			if(keyCode == KeyEvent.VK_DOWN) player.setDown(true);;
 			if(keyCode == KeyEvent.VK_LEFT) player.setLeft(true);
 			if(keyCode == KeyEvent.VK_RIGHT) player.setRight(true);
 			
@@ -181,10 +209,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 	@Override
 	public void keyReleased(KeyEvent key) {
 			int keyCode = key.getKeyCode();
-			if(keyCode == KeyEvent.VK_UP) {
-				player.setUp(false);
-
-			}
+			if(keyCode == KeyEvent.VK_UP) player.setUp(false);
 			if(keyCode == KeyEvent.VK_DOWN) player.setDown(false);
 			if(keyCode == KeyEvent.VK_LEFT) player.setLeft(false);
 			if(keyCode == KeyEvent.VK_RIGHT) player.setRight(false);

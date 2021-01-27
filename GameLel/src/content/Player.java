@@ -1,6 +1,7 @@
 package content;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -103,6 +104,14 @@ public class Player {
 		g.setColor(color1.darker());
 		g.drawOval(x - r, y - r, 2 * r, 2 * r);
 		g.setStroke(new BasicStroke(1));*/
+	}
+	
+	public Dimension getPos() {
+		return new Dimension(x, y);
+	}
+	
+	public Dimension getSiz() {
+		return new Dimension(sprite.getWidth(), sprite.getHeight());
 	}
 	
 }
