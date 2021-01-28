@@ -2,23 +2,29 @@ package content;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.util.Iterator;
 
 public class World {
 	BufferedImage world;
 	Tile grass;
-	Chunk[] chunks = new Chunk[5];
+	Chunk[] chunks;
 	
 	World(){
 		grass = new Tile();
 		
+			chunks = new Chunk[576]; //ANZAHL DER CHUNKS IN EINEM SCREEN
 
+			int k = 0;
+			for (int i = 0; i < 18; i++) {
+				
+				for (int j = 0; j < 32; j++) {
+					chunks[k] = new Chunk();	
+					chunks[k].setChunk(j * 16, i * 16, grass);
+					k += 1;
+				}
+			}
 			
-			chunks[0] = new Chunk();	
-			chunks[0].setChunk(0, 0, grass);
 			
-			chunks[1] = new Chunk();	
-			chunks[1].setChunk(16, 0, grass);
+			
 			
 			chunks[2] = new Chunk();	
 			chunks[2].setChunk(32, 0, grass);

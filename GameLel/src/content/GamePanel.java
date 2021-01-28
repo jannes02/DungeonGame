@@ -156,10 +156,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 			g.setColor(Color.BLACK);
 			g.drawString("FPS: " + wahrheit, 100, 100);
 			
+			world.draw(g);
 			wo1.draw(g);
 			player.draw(g);
 			
-			world.draw(g);
+			
 			
 
 		}
