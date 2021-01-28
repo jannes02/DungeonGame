@@ -5,19 +5,25 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class Player {
+public class Player extends Thread{
 
 	private int x, y, r, dx, dy, speed, lives;
-	private boolean left, right, up, down;
+	private boolean left, right, up, down, aufDemBoden, amSprigen = false;
 	Color color1, color2;
 	BufferedImage sprite;
 	private Animation idleAnimation, walkAnimation, runAnimation, jumpAnimation;
 	private boolean yAchseSpielgeln = false;
+	private Timer lol;
 	
+	private Thread jumpT;
+	private Runnable jump;
+
 	
 	//CONSTRUCTOR
-	public Player() throws IOException {
+	public Player() throws IOException{
 		x = GamePanel.WIDTH / 2;
 		y = GamePanel.HEIGHT / 2;
 		r = 5;
@@ -27,6 +33,28 @@ public class Player {
 		speed = 1;
 		
 		lives = 3;
+		
+		lol = new Timer();
+		
+		jumpT = new Thread(jump);
+		
+		jump = new Runnable() {
+            public void run() {
+            	if (aufDemBoden) {
+            		  amSprigen = true;
+            		  try {
+      					Thread.sleep(250);
+      				} catch (InterruptedException e) {
+      					// TODO Auto-generated catch block
+      					e.printStackTrace();
+      				}
+                     amSprigen = false;
+				}
+            }
+        };
+        
+       
+
 		
 		idleAnimation = new Animation();
 		idleAnimation.setAnimation("rsc/sprites/player_idle.png", 24, 32, 11);
@@ -44,11 +72,20 @@ public class Player {
 	public void setDown(boolean b) { down = b; }
 	public void setLeft(boolean b) { left = b; }
 	public void setRight(boolean b) { right = b; }
+	public void setAufDemBoden(boolean b) { aufDemBoden = b; }
+	
+	
 	
 	public void update() {
 		if (up) {
-			dy = -speed;
 			
+			if ( ! jumpT.isAlive() ) { 
+				
+				jumpT = new Thread(jump);
+				jumpT.start();
+				
+			}
+
 		}
 		else if (down) {
 			dy = speed;
@@ -79,11 +116,18 @@ public class Player {
 		if(y > GamePanel.HEIGHT - r) x = GamePanel.HEIGHT - r;*/
 		
 		dx = 0;
-		dy = 0;
+		
+		if (aufDemBoden == true && ! amSprigen) {
+			dy = 0;
+		}
+		else if (amSprigen) {dy = -5;}
+			
+		else dy = 3;
 		
 
 		
 	}
+	
 	
 	public void draw(Graphics2D g) {
 		
@@ -113,5 +157,6 @@ public class Player {
 	public Dimension getSiz() {
 		return new Dimension(sprite.getWidth(), sprite.getHeight());
 	}
+	
 	
 }

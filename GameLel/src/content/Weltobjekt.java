@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 
 public class Weltobjekt {
 	private BufferedImage sprite;
-	private int x = 160, y = 16, w = 160, h = 160;
+	private int x = 160, y = 200, w = 160, h = 16;
 	
 	Weltobjekt(){
 		sprite = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);

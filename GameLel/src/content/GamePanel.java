@@ -182,7 +182,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 	
 	private void hitboxBerrechnen() {
 		if (player.getPos().width > wo1.getPos().width && player.getPos().width < (wo1.getPos().width + wo1.getSiz().getWidth())) {
-			wahrheit = true;
+			if ((player.getPos().height + player.getSiz().getHeight() - 10 ) >= (wo1.getPos().height)) {
+				player.setAufDemBoden(true);
+			}
+			else {
+				player.setAufDemBoden(false);
+				System.out.println("looooooooooooooooooooooooo");
+			}
 		}
 		else {
 		wahrheit = false;
