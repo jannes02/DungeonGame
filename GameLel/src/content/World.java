@@ -22,18 +22,6 @@ public class World {
 					k += 1;
 				}
 			}
-			
-			
-			
-			
-			chunks[2] = new Chunk();	
-			chunks[2].setChunk(32, 0, grass);
-			
-			chunks[3] = new Chunk();	
-			chunks[3].setChunk(16 * 3, 0, grass);
-			
-			chunks[4] = new Chunk();	
-			chunks[4].setChunk(16, 16, grass);
 		}
 		
 	

@@ -77,7 +77,7 @@ public class Player extends Thread{
 	
 	
 	public void update() {
-		if (up) {
+		if (up == true) {
 			
 			if ( ! jumpT.isAlive() ) { 
 				
