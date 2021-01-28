@@ -39,6 +39,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 	
 	private boolean wahrheit;
 	
+	private World world;
+	
 	
 	
 	public GamePanel(JFrame w){
@@ -52,6 +54,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 		btn1 = new UI_object();
 		
 		btn1.setObject(100, 100, 300, 300);
+		
+		world = new World();
 		
 	}
 		
@@ -154,6 +158,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 			
 			wo1.draw(g);
 			player.draw(g);
+			
+			world.draw(g);
 			
 
 		}
