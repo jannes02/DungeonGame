@@ -2,40 +2,65 @@ package content;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class World {
 	BufferedImage world;
 	Tile grass, way;
 	Chunk[] chunks;
+	HashMap<String, String> tMap;
 
-	World() { // CONSTRUCTOR
-
-		JSONObject obj = new JSONObject();
-		obj.put("name", "mkyong.com");
-		obj.put("age", 100);
-
-		JSONArray list = new JSONArray();
-		list.add("msg 1");
-		list.add("msg 2");
-		list.add("msg 3");
-
-		obj.put("messages", list);
-
-		try (FileWriter file = new FileWriter("c:\\projects\\test.json")) {
-			file.write(obj.toJSONString());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		System.out.print(obj);
+	World() {
 
 		grass = new Tile("grass");
 		way = new Tile("way");
+
+		// genWorld();
+
+		chunks = new Chunk[576]; // ANZAHL DER CHUNKS IN EINEM SCREEN
+		// parsing file "JSONExample.json"
+		Object obj = null;
+		try {
+			obj = new JSONParser().parse(new FileReader("rsc/worlds/test.json"));
+		} catch (IOException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// typecasting obj to JSONObject
+		JSONObject jo = (JSONObject) obj;
+
+		// getting
+		int k = 0;
+		for (int i = 0; i < 18; i++) {
+
+			for (int j = 0; j < 32; j++) {
+				chunks[k] = new Chunk();
+				String str = (String) jo.get("X" + i + "Y" + j);
+				String str2 = "grass";
+				if (str.equals(str2)) {
+					chunks[k].setChunk(j * 16, i * 16, grass);
+				} else {
+					chunks[k].setChunk(j * 16, i * 16, way);
+				}
+				System.out.println((String) jo.get("X" + i + "Y" + j));
+				k += 1;
+
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void genWorld() { // CONSTRUCTOR
+
+		JSONObject obj = new JSONObject();
 
 		chunks = new Chunk[576]; // ANZAHL DER CHUNKS IN EINEM SCREEN
 
@@ -49,10 +74,20 @@ public class World {
 				} else {
 					chunks[k].setChunk(j * 16, i * 16, way);
 				}
+				obj.put("X" + i + "Y" + j, chunks[k].getTile().getTileName());
 				k += 1;
+
 			}
 
 		}
+
+		try (FileWriter file = new FileWriter("rsc/worlds/test.json")) {
+			file.write(obj.toJSONString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		System.out.print(obj.toString());
 
 	}
 

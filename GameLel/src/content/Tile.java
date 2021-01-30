@@ -28,4 +28,8 @@ public class Tile {
 	BufferedImage drawTile(int i) {
 		return tile[i];
 	}
+
+	public String getTileName() {
+		return tileName;
+	}
 }
