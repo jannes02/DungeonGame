@@ -2,84 +2,60 @@ package content;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.FileWriter;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class World {
 	BufferedImage world;
 	Tile grass, way;
-	Chunk[] chunks;
+	MapTile mapTile;
+	HashMap<String, String> tMap;
 
-	World() { // CONSTRUCTOR
+	World() {
 
-		JSONObject obj = new JSONObject();
-		obj.put("name", "mkyong.com");
-		obj.put("age", 100);
+		// genWorld();
 
-		JSONArray list = new JSONArray();
-		list.add("msg 1");
-		list.add("msg 2");
-		list.add("msg 3");
+		HashMap<Integer, MapTile> hm = new HashMap<Integer, MapTile>();
 
-		obj.put("messages", list);
-
-		try (FileWriter file = new FileWriter("c:\\projects\\test.json")) {
-			file.write(obj.toJSONString());
-		} catch (IOException e) {
+		Object obj = null;
+		try {
+			obj = new JSONParser().parse(new FileReader("rsc/worlds/test.json"));
+		} catch (IOException | ParseException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		System.out.print(obj);
+		// typecasting obj to JSONObject
+		JSONObject jo = (JSONObject) obj;
+		System.out.println(jo);
 
-		grass = new Tile("grass");
-		way = new Tile("way");
-
-		chunks = new Chunk[576]; // ANZAHL DER CHUNKS IN EINEM SCREEN
-
-		int k = 0;
-		for (int i = 0; i < 18; i++) {
-
-			for (int j = 0; j < 32; j++) {
-				chunks[k] = new Chunk();
-				if (k % 5 == 0) {
-					chunks[k].setChunk(j * 16, i * 16, grass);
-				} else {
-					chunks[k].setChunk(j * 16, i * 16, way);
-				}
-				k += 1;
-			}
-
-		}
-
-	}
-
-	public void draw(Graphics2D g) {
-
-		for (int i = 0; i < chunks.length; i++) {
-
-			g.drawImage(chunks[i].t.drawTile(0), chunks[i].x, chunks[i].y, null);
-		}
-	}
-
-	private class Chunk {
-		private Tile t;
-		private int x;
-		private int y;
-
-		public void setChunk(int x, int y, Tile t) {
-			this.x = x;
-			this.y = y;
-			this.t = t;
-		}
-
-		private Tile getTile() {
-			return t;
-
-		}
-
+		/*
+		 * getting int k = 0; for (int i = 0; i < 18; i++) {
+		 * 
+		 * for (int j = 0; j < 32; j++) {
+		 * 
+		 * String str = (String) jo.;
+		 * 
+		 * mapTile = new MapTile(k, j, i, i, str)
+		 * 
+		 * hm.put(k, mapTile);
+		 * 
+		 * 
+		 * System.out.println((String) jo.get("X" + i + "Y" + j)); k += 1;
+		 * 
+		 * } } }
+		 * 
+		 * public void draw(Graphics2D g) {
+		 * 
+		 * for (int i = 0; i < chunks.length; i++) {
+		 * 
+		 * g.drawImage(chunks[i].t.drawTile(), chunks[i].x, chunks[i].y, null); }
+		 */
 	}
 
 }

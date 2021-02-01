@@ -7,25 +7,35 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Tile {
-	private String tileName;
-	private BufferedImage tile[];
-	private int x = 16, y = 16;
+	private BufferedImage sprite;
+	private int width, height;
 
 	Tile(String tName) {
-		this.tileName = tName;
-		tile = new BufferedImage[8];
+
 		try {
-			tile[0] = ImageIO.read(new File("rsc/sprites/tiles/" + tileName + "_mid.png"));
-			tile[1] = ImageIO.read(new File("rsc/sprites/test13.png"));
-			tile[2] = ImageIO.read(new File("rsc/sprites/test31.png"));
-			tile[3] = ImageIO.read(new File("rsc/sprites/test33.png"));
+			sprite = ImageIO.read(new File("rsc/sprites/tiles/" + tName + "_mid.png"));
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		this.width = sprite.getWidth();
+		this.height = sprite.getHeight();
 	}
 
-	BufferedImage drawTile(int i) {
-		return tile[i];
+	BufferedImage drawTile() {
+		return sprite;
+	}
+
+	public int getInt(String ind) {
+		int r = 0;
+		if (ind.equals(new String("widht"))) {
+			r = this.width;
+		}
+		if (ind.equals(new String("height"))) {
+			r = this.height;
+		}
+		return r;
 	}
 }
