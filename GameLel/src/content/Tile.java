@@ -39,7 +39,4 @@ public class Tile {
 		return r;
 	}
 
-	public String getTileName() {
-		return tileName;
-	}
 }

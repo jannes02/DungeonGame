@@ -54,6 +54,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 		btn1.setObject(100, 100, 300, 300);
 
 		world = new World();
+		world.loadMap();
 
 	}
 
@@ -141,7 +142,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		g.setColor(Color.BLACK);
 
-		// world.draw(g);
+		world.draw(g);
 		wo1.draw(g);
 		player.draw(g);
 
@@ -175,7 +176,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 				player.setAufDemBoden(true);
 			} else {
 				player.setAufDemBoden(false);
-				System.out.println("looooooooooooooooooooooooo");
 			}
 		} else {
 			wahrheit = false;
