@@ -21,6 +21,7 @@ public class Main {
 
 		GraphicsEnvironment graphics = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice device = graphics.getDefaultScreenDevice();
+		// System.out.println("WIDTH: " + device.getDisplayMode().getWidth());
 		device.setFullScreenWindow(window);
 
 	}

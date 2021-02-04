@@ -106,8 +106,6 @@ public class World {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("HII");
-
 	}
 
 	public void draw(Graphics2D g) {
@@ -117,7 +115,6 @@ public class World {
 			MapTile mt = mtList.get(i);
 
 			g.drawImage(mt.getTile().drawTile(), mt.getX(), mt.getY(), null);
-			System.out.println(mt.getX());
 		}
 	}
 

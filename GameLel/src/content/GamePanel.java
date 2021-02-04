@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -18,6 +20,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 
 	public static int WIDTH = 512;
 	public static int HEIGHT = 288;
+	public static boolean EDIT_MODE;
+	public static int MOUSE_X, MOUSE_Y;
+
 	public int fensterH = 900, fensterW = 1600;
 
 	private Thread thread;
@@ -41,12 +46,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 
 	private World world;
 
+	private UI ui;
+
+	// CONSTRUCTOR <===============================>
 	public GamePanel(JFrame w) {
 
 		super();
 		setFocusable(true);
 		requestFocus();
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		setCursor(w.getToolkit().createCustomCursor(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB), new Point(),
+				null));
 
 		window = w;
 		btn1 = new UI_object();
@@ -56,7 +66,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 		world = new World();
 		world.loadMap();
 
+		ui = new UI();
+
 	}
+	// CONSTRUCTOR END <==================================>
 
 	// FUNCTIONS
 	public void addNotify() {
@@ -129,10 +142,20 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 	private void gameUpdate() {
 
 		player.update();
+		ui.update();
 
 		fensterAnpassen();
 
 		hitboxBerrechnen();
+		rechnen();
+
+	}
+
+	private void rechnen() {
+		int mouseX = ((int) MouseInfo.getPointerInfo().getLocation().getX()) + 1;
+		MOUSE_X = (int) (mouseX / 3.75);
+		int mouseY = ((int) MouseInfo.getPointerInfo().getLocation().getY()) + 1;
+		MOUSE_Y = (int) (mouseY / 3.75);
 
 	}
 
@@ -146,7 +169,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 		wo1.draw(g);
 		player.draw(g);
 
-		g.drawString("FPS: " + averageFPS, 100, 100);
+		g.drawString("FPS: " + EDIT_MODE, 100, 100);
+
+		ui.draw(g);
 
 	}
 
@@ -179,7 +204,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 			}
 		} else {
 			wahrheit = false;
-			System.out.println(player.getPos().width);
 		}
 	}
 
@@ -196,6 +220,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 			player.setRight(true);
 		if (keyCode == KeyEvent.VK_ESCAPE)
 			System.exit(1);
+		if (keyCode == KeyEvent.VK_ALT) {
+			if (!EDIT_MODE)
+				EDIT_MODE = true;
+			else
+				EDIT_MODE = false;
+		}
 
 	}
 
