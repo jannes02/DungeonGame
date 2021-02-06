@@ -11,7 +11,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -48,6 +47,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 
 	private UI ui;
 
+	private Camera cam;
+
 	// CONSTRUCTOR <===============================>
 	public GamePanel(JFrame w) {
 
@@ -59,7 +60,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 				null));
 
 		window = w;
-
+		player = new Player();
+		cam = new Camera();
 		// ui = new UI();
 		// ui.setWorld(world);
 
@@ -89,14 +91,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 		System.out.println("HIIIIIIII");
 		world = new World();
 		world.startLoadWorld();
-
-		try {
-			player = new Player();
-		} catch (IOException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-
-		}
 
 		wo1 = new Weltobjekt();
 
@@ -172,6 +166,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 
 		g.drawString("FPS: " + EDIT_MODE, 100, 100);
 
+		g.translate(-cam.getCameraOffsetX(), -cam.getCameraOffsetY());
+
 		// ui.draw(g);
 
 	}
@@ -180,6 +176,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 
 		Graphics g2 = this.getGraphics();
 
+		// g2.translate(90, 40);
 		g2.drawImage(image, 0, 0, fensterW, fensterH, null);
 
 		g2.dispose();

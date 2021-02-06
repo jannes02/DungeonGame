@@ -9,7 +9,8 @@ import java.util.Timer;
 
 public class Player extends Thread {
 
-	private int x, y, r, dx, dy, speed, lives;
+	private int r, dx, dy, speed, lives;
+	public static int x, y;
 	private boolean left, right, up, down, aufDemBoden, amSprigen = false;
 	Color color1, color2;
 	BufferedImage sprite;
@@ -21,7 +22,7 @@ public class Player extends Thread {
 	private Runnable jump;
 
 	// CONSTRUCTOR
-	public Player() throws IOException {
+	public Player() {
 		x = GamePanel.WIDTH / 2;
 		y = GamePanel.HEIGHT / 2;
 		r = 5;
@@ -52,11 +53,21 @@ public class Player extends Thread {
 		};
 
 		idleAnimation = new Animation();
-		idleAnimation.setAnimation("rsc/sprites/player_idle.png", 24, 32, 11);
+		try {
+			idleAnimation.setAnimation("rsc/sprites/player_idle.png", 24, 32, 11);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		idleAnimation.start();
 
 		walkAnimation = new Animation();
-		walkAnimation.setAnimation("rsc/sprites/player_walk.png", 22, 32, 13);
+		try {
+			walkAnimation.setAnimation("rsc/sprites/player_walk.png", 22, 32, 13);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		walkAnimation.start();
 
 	}

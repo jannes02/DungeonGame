@@ -27,8 +27,8 @@ public class World {
 	private Thread loadWorldThread;
 	private Runnable loadWorld;
 
-	private int mapHeight;
-	private int mapWidth;
+	public static int mapHeight;
+	public static int mapWidth;
 	private int countOfTiles;
 
 	private String loadingStatus;
