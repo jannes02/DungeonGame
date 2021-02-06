@@ -59,14 +59,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 				null));
 
 		window = w;
-		btn1 = new UI_object();
 
-		btn1.setObject(100, 100, 300, 300);
+		// ui = new UI();
+		// ui.setWorld(world);
 
-		world = new World();
-		world.loadMap();
-
-		ui = new UI();
+		// ui.setMarker(world.getHoveredMaptile());
 
 	}
 	// CONSTRUCTOR END <==================================>
@@ -88,6 +85,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
+
+		System.out.println("HIIIIIIII");
+		world = new World();
+		world.startLoadWorld();
 
 		try {
 			player = new Player();
@@ -142,11 +143,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 	private void gameUpdate() {
 
 		player.update();
-		ui.update();
+		// ui.update();
 
 		fensterAnpassen();
 
-		hitboxBerrechnen();
+		// hitboxBerrechnen();
 		rechnen();
 
 	}
@@ -171,7 +172,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 
 		g.drawString("FPS: " + EDIT_MODE, 100, 100);
 
-		ui.draw(g);
+		// ui.draw(g);
 
 	}
 
@@ -194,18 +195,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 		}
 	}
 
-	private void hitboxBerrechnen() {
-		if (player.getPos().width > wo1.getPos().width
-				&& player.getPos().width < (wo1.getPos().width + wo1.getSiz().getWidth())) {
-			if ((player.getPos().height + player.getSiz().getHeight() - 10) >= (wo1.getPos().height)) {
-				player.setAufDemBoden(true);
-			} else {
-				player.setAufDemBoden(false);
-			}
-		} else {
-			wahrheit = false;
-		}
-	}
+//	private void hitboxBerrechnen() {
+//		if (player.getPos().width > wo1.getPos().width
+//				&& player.getPos().width < (wo1.getPos().width + wo1.getSiz().getWidth())) {
+//			if ((player.getPos().height + player.getSiz().getHeight() - 10) >= (wo1.getPos().height)) {
+//				player.setAufDemBoden(true);
+//			} else {
+//				player.setAufDemBoden(false);
+//			}
+//		} else {
+//			wahrheit = false;
+//		}
+//	}
 
 	@Override
 	public void keyPressed(KeyEvent key) {
@@ -251,8 +252,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
+		if (EDIT_MODE) {
+			ui.updateMarker(world.getHoveredMaptile());
+		}
 	}
 
 	@Override
@@ -268,7 +270,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		window.setSize(1920, 1080);
 
 	}
 
